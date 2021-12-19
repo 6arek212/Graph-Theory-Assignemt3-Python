@@ -65,11 +65,11 @@ class DiGraph(GraphInterface):
             return False
 
         for i in self.Nodes.get(node_id).edges_in.keys():
-            self.Nodes.get(node_id).edges_in.pop(node_id)
+            self.Nodes.get(i).edges_out.pop(node_id)
             self.edge_counter-=1
 
         for i in self.Nodes.get(node_id).edges_out.keys():
-            self.Nodes.get(node_id).edges_out.pop(node_id)
+            self.Nodes.get(i).edges_in.pop(node_id)
             self.edge_counter-=1
 
         self.mc +=1
@@ -88,7 +88,11 @@ class DiGraph(GraphInterface):
             self.nodes_counter -= 1
             return True
         return False
+    def __str__(self):
+        return f"Nodes: {self.Nodes}"
 
+    def __repr__(self):
+        return f"Nodes: {self.Nodes}"
 
 
 class NodeData:
@@ -105,3 +109,8 @@ class NodeData:
 
     def __repr__(self):
         return f"id: {self.key} , pos : {self.pos} , edgesIn : {self.edges_in} , edgesOut: {self.edges_out}"
+    # def __str__(self):
+    #     return f"id - pos : {self.pos}"
+    #
+    # def __repr__(self):
+    #     return f"id  - pos : {self.pos} "
