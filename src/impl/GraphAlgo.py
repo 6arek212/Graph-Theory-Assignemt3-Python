@@ -42,12 +42,11 @@ class GraphAlgo(GraphAlgoInterface):
       to_json = {"Edges": [] , "Nodes" : []}
 
       with open(file_name , 'w') as json_file:
-        # try:
+        try:
            for n in  self.graph.get_all_v().values():
               if n.pos is None:
                   to_json["Nodes"].append({"id:" , n.key})
               else:
-                # to_json["Nodes"].append({"pos": str(n.pos), "id" : n.key})
                 to_json["Nodes"].append({"pos": f"{n.pos[0]},{n.pos[1]},{n.pos[2]}", "id": n.key})
 
            for n in self.graph.get_all_v().keys():
@@ -57,9 +56,9 @@ class GraphAlgo(GraphAlgoInterface):
 
            json.dump(to_json , json_file , indent=2)
            return True
-        # except Exception as e:
-        #     print("saving to json FAILED!! " + str(e))
-        #     return False
+        except Exception as e:
+            print("saving to json FAILED!! " + str(e))
+            return False
 
 
 

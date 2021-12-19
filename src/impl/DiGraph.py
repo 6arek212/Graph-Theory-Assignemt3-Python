@@ -5,6 +5,8 @@ class DiGraph(GraphInterface):
 
     def __init__(self):
         self.mc = 0;
+        #this list just for printing edges
+        self.Edges = []
         self.Nodes = dict()
         self.nodes_counter = 0
         self.edge_counter = 0
@@ -38,6 +40,7 @@ class DiGraph(GraphInterface):
     def add_edge(self, id1: int, id2: int, weight: float) -> bool:
         if (self.Nodes.get(id1) is None) or (self.Nodes.get(id2) is None) or (id1 == id2):
             return  False
+        self.Edges.append((id1 , id2 , weight))
         #update edges out for id1
         self.Nodes.get(id1).edges_out[id2] = weight
         #update edges in for id2
@@ -89,10 +92,10 @@ class DiGraph(GraphInterface):
             return True
         return False
     def __str__(self):
-        return f"Nodes: {self.Nodes}"
+        return f"Nodes: {self.Nodes}\nEdges: {self.Edges}"
 
     def __repr__(self):
-        return f"Nodes: {self.Nodes}"
+        return f"Nodes: {self.Nodes}\nEdges: {self.Edges}"
 
 
 class NodeData:
@@ -104,13 +107,13 @@ class NodeData:
         self.edges_in = {}
         self.edges_out = {}
 
-    def __str__(self):
-        return f"id: {self.key} , pos : {self.pos} , edgesIn : {self.edges_in} , edgesOut: {self.edges_out}"
-
-    def __repr__(self):
-        return f"id: {self.key} , pos : {self.pos} , edgesIn : {self.edges_in} , edgesOut: {self.edges_out}"
     # def __str__(self):
-    #     return f"id - pos : {self.pos}"
+    #     return f"id: {self.key} , pos : {self.pos} , edgesIn : {self.edges_in} , edgesOut: {self.edges_out}"
     #
     # def __repr__(self):
-    #     return f"id  - pos : {self.pos} "
+    #     return f"id: {self.key} , pos : {self.pos} , edgesIn : {self.edges_in} , edgesOut: {self.edges_out}"
+    def __str__(self):
+        return f"id - pos : {self.pos}"
+
+    def __repr__(self):
+        return f"id  - pos : {self.pos} "

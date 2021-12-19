@@ -37,8 +37,8 @@ def check0():
 
     g_a.load_from_json("../data/A2.json")
 
-    file = '../data/A5.json'
-    g_a.save_to_json(file + "_edited")
+    file = '../data/A.json'
+    g_a.save_to_json(file)
     # for n in range(4):
     #     g.add_node(n)
     # g.add_edge(0, 1, 1)
