@@ -14,7 +14,7 @@ class GraphAlgo(GraphAlgoInterface):
 
     def get_graph(self) -> GraphInterface:
         return self.graph
-
+    #loading
     def load_from_json(self, file_name: str) -> bool:
         json_graph = DiGraph()
         try:
