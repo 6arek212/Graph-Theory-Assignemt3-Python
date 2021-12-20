@@ -1,3 +1,3 @@
-from src.impl.DiGraph import DiGraph
-from src.impl.GraphAlgo import GraphAlgo
+from src.impl.di_graph import DiGraph
+from src.impl.graoh_algo import GraphAlgo
 
