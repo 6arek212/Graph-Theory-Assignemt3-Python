@@ -12,10 +12,10 @@ class Node:
         self.tag = Node.WHITE
 
     def __str__(self):
-        return f'id: {self.key} , w {self.w} ,pos : {self.pos}'
+        return f'key: {self.key} , w {self.w} ,pos : {self.pos}'
 
     def __repr__(self):
-        return f'id: {self.key}, w {self.w} , pos : {self.pos}'
+        return f'key: {self.key}, w {self.w} , pos : {self.pos}'
 
     def __dict__(self):
         return {
