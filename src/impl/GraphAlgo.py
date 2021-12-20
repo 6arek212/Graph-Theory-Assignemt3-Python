@@ -1,10 +1,13 @@
+import heapq
+
 from src.api.GraphAlgoInterface import GraphAlgoInterface
 from src.api.GraphInterface import GraphInterface
 from src.impl.DiGraph import DiGraph
 from typing import List
 import json
-import numpy as np
 import sys
+import matplotlib.pyplot as plt
+from numpy import inf
 
 
 class GraphAlgo(GraphAlgoInterface):
@@ -61,12 +64,50 @@ class GraphAlgo(GraphAlgoInterface):
             return False
 
 
-
-
-
-
     def shortest_path(self, id1: int, id2: int) -> (float, list):
-        pass
+
+        if self.graph is None or self.graph.Nodes.get(id1) is None or  self.graph.Nodes.get(id2) is None:
+            return float("inf"), []
+
+        dist = {}
+        for i in self.graph.Nodes.keys():
+            dist[i] = inf
+        previous = {id1 : -1}
+        dist [id1] = 0
+        queue = []
+        #priority queue taking the min
+        heapq.heappush(queue , (0 ,id1))
+
+        while queue:
+            #taking the second element in tuple
+            curr_min_node = heapq.heappop(queue)[1]
+
+            if curr_min_node == id2:
+                break
+
+            for neighbour , w in self.graph.all_out_edges_of_node(curr_min_node).items():
+
+                currWight = dist[curr_min_node] + w
+
+                if currWight < dist[neighbour]:
+                    dist[neighbour] = currWight
+                    previous[neighbour] = curr_min_node
+                    heapq.heappush(queue , (dist[neighbour] , neighbour))
+
+
+        shortestPath  = []
+        curr = id2
+        if dist[id2] == inf:
+            return  inf , []
+
+        while curr !=-1:
+            shortestPath.insert(0 , curr)
+            curr = previous[curr]
+
+
+        return dist[id2] , shortestPath
+
+
 
     def TSP(self, node_lst: List[int]) -> (List[int], float):
         pass

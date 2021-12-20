@@ -1,6 +1,5 @@
 from src.impl.DiGraph import DiGraph
-
-
+from src.ui.gui import UI
 from src.impl.GraphAlgo import GraphAlgo
 
 def check():
@@ -35,12 +34,15 @@ def check0():
     g_a = GraphAlgo()
 
 
-    g_a.load_from_json("../data/A2.json")
-
+    g_a.load_from_json("../data/A5.json")
+    gui = UI(g_a)
+    gui.runGUI()
+    print(g_a.shortest_path(2,23))
     file = '../data/A.json'
-    g_a.save_to_json(file)
+    # g_a.save_to_json(file)
+
     # for n in range(4):
-    #     g.add_node(n)
+    #     g.add_node(n)2
     # g.add_edge(0, 1, 1)
     # g.add_edge(1, 0, 1.1)
     # g.add_edge(1, 2, 1.3)

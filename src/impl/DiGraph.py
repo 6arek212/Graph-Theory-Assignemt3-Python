@@ -59,7 +59,6 @@ class DiGraph(GraphInterface):
         self.Nodes[node_id] = new_Node
         self.mc+=1
         self.nodes_counter+=1
-        print(new_Node)
         return True
 
 
@@ -113,7 +112,7 @@ class NodeData:
     # def __repr__(self):
     #     return f"id: {self.key} , pos : {self.pos} , edgesIn : {self.edges_in} , edgesOut: {self.edges_out}"
     def __str__(self):
-        return f"id - pos : {self.pos}"
+        return f"id {self.key} - pos : {self.pos}"
 
     def __repr__(self):
-        return f"id  - pos : {self.pos} "
+        return f"id {self.key} - pos : {self.pos}"
