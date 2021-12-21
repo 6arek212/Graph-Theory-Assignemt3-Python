@@ -34,9 +34,11 @@ def check0():
     g_a = GraphAlgo()
 
 
-    g_a.load_from_json("../data/A5.json")
+    g_a.load_from_json("../data/A2.json")
     gui = UI(g_a)
     gui.runGUI()
+    list = [1,3,4]
+    print(g_a.TSP(list))
     print(g_a.shortest_path(2,23))
     file = '../data/A.json'
     # g_a.save_to_json(file)
@@ -53,7 +55,7 @@ def check0():
     # print(g.all_in_edges_of_node(1))
     # print(g.all_out_edges_of_node(1))
     print(g_a.get_graph())  # prints the __repr__ (func output)
-
+#
 # print(g.get_all_v())  # prints a dict with all the graph's vertices.
 # print(g.all_in_edges_of_node(1))
 # print(g.all_out_edges_of_node(1))

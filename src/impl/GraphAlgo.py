@@ -22,16 +22,16 @@ class GraphAlgo(GraphAlgoInterface):
         json_graph = DiGraph()
         try:
             with open(file_name) as json_file:
-                #dic of json
+                # dic of json
                 json_data = json.load(json_file)
             for n in json_data["Nodes"]:
-                    key = n["id"]
-                    if "pos" not in n:
-                        json_graph.add_node(key)
-                    else:
-                      x, y,z = map(float, str(n["pos"]).split(","))
-                      pos = (x,y,z)
-                      json_graph.add_node(key, pos)
+                key = n["id"]
+                if "pos" not in n:
+                    json_graph.add_node(key)
+                else:
+                    x, y, z = map(float, str(n["pos"]).split(","))
+                    pos = (x, y, z)
+                    json_graph.add_node(key, pos)
             for edge in json_data["Edges"]:
                 json_graph.add_edge(edge["src"], edge["dest"], edge["w"])
             self.graph = json_graph
@@ -42,78 +42,107 @@ class GraphAlgo(GraphAlgoInterface):
 
     def save_to_json(self, file_name: str) -> bool:
 
-      to_json = {"Edges": [] , "Nodes" : []}
+        to_json = {"Edges": [], "Nodes": []}
 
-      with open(file_name , 'w') as json_file:
-        try:
-           for n in  self.graph.get_all_v().values():
-              if n.pos is None:
-                  to_json["Nodes"].append({"id:" , n.key})
-              else:
-                to_json["Nodes"].append({"pos": f"{n.pos[0]},{n.pos[1]},{n.pos[2]}", "id": n.key})
+        with open(file_name, 'w') as json_file:
+            try:
+                for n in self.graph.get_all_v().values():
+                    if n.pos is None:
+                        to_json["Nodes"].append({"id:", n.key})
+                    else:
+                        to_json["Nodes"].append({"pos": f"{n.pos[0]},{n.pos[1]},{n.pos[2]}", "id": n.key})
 
-           for n in self.graph.get_all_v().keys():
-             out_edges = self.graph.all_out_edges_of_node(n)
-             for key_out_node  in out_edges:
-                 to_json["Edges"].append({"src": n, "w": out_edges[key_out_node] , "dest": key_out_node})
+                for n in self.graph.get_all_v().keys():
+                    out_edges = self.graph.all_out_edges_of_node(n)
+                    for key_out_node in out_edges:
+                        to_json["Edges"].append({"src": n, "w": out_edges[key_out_node], "dest": key_out_node})
 
-           json.dump(to_json , json_file , indent=2)
-           return True
-        except Exception as e:
-            print("saving to json FAILED!! " + str(e))
-            return False
-
+                json.dump(to_json, json_file, indent=2)
+                return True
+            except Exception as e:
+                print("saving to json FAILED!! " + str(e))
+                return False
 
     def shortest_path(self, id1: int, id2: int) -> (float, list):
 
-        if self.graph is None or self.graph.Nodes.get(id1) is None or  self.graph.Nodes.get(id2) is None:
+        if self.graph is None or self.graph.Nodes.get(id1) is None or self.graph.Nodes.get(id2) is None:
             return float("inf"), []
 
         dist = {}
         for i in self.graph.Nodes.keys():
             dist[i] = inf
-        previous = {id1 : -1}
-        dist [id1] = 0
+        previous = {id1: -1}
+        dist[id1] = 0
         queue = []
-        #priority queue taking the min
-        heapq.heappush(queue , (0 ,id1))
+        # priority queue taking the min
+        heapq.heappush(queue, (0, id1))
 
         while queue:
-            #taking the second element in tuple
+            # taking the second element in tuple
             curr_min_node = heapq.heappop(queue)[1]
 
             if curr_min_node == id2:
                 break
 
-            for neighbour , w in self.graph.all_out_edges_of_node(curr_min_node).items():
+            for neighbour, w in self.graph.all_out_edges_of_node(curr_min_node).items():
 
                 currWight = dist[curr_min_node] + w
 
                 if currWight < dist[neighbour]:
                     dist[neighbour] = currWight
                     previous[neighbour] = curr_min_node
-                    heapq.heappush(queue , (dist[neighbour] , neighbour))
+                    heapq.heappush(queue, (dist[neighbour], neighbour))
 
-
-        shortestPath  = []
+        shortestPath = []
         curr = id2
         if dist[id2] == inf:
-            return  inf , []
+            return inf, []
 
-        while curr !=-1:
-            shortestPath.insert(0 , curr)
+        while curr != -1:
+            shortestPath.insert(0, curr)
             curr = previous[curr]
 
-
-        return dist[id2] , shortestPath
-
-
+        return dist[id2], shortestPath
 
     def TSP(self, node_lst: List[int]) -> (List[int], float):
-        pass
+
+        targetTo = node_lst.copy()
+        res = []
+        src = targetTo[0]
+        if len(node_lst) == 1:
+            return self.shortest_path(src, src)
+        dest = targetTo[1]
+        while targetTo:
+
+            if (res and res[len(res) - 1] == src):
+                res.pop(len(res) - 1)
+
+            tmp = self.shortest_path(src, dest)[1]
+            # targetTo = [node for node in targetTo if node not in tmp]
+            for node in targetTo:
+                if node in tmp:
+                    targetTo.remove(node)
+
+            for node in tmp:
+                res.append(node)
+            # res = [node for node in tmp]
+            if targetTo:
+                src = dest
+                dest = targetTo[0];
+
+        return res, self.getPathCost(res)
+
+    def getPathCost(self, list) -> float:
+        cost = 0
+        for i in range(len(list) - 1):
+            cost += self.graph.all_out_edges_of_node(i)[i + 1]
+
+        return cost
 
     def centerPoint(self) -> (int, float):
-        pass
+         pass
+
+
 
     def plot_graph(self) -> None:
         pass

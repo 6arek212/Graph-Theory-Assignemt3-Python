@@ -34,7 +34,7 @@ class UI:
         s0 = self.world2Frame.worldToframe(s)
         d0 = self.world2Frame.worldToframe(d)
 
-        pygame.draw.line(self.WIN, self.RED,
+        pygame.draw.line(self.WIN, (0,0,255),
                          (s0[0], s0[1]), (d0[0], d0[1]))
 
     def draw_Node(self, node, r):
@@ -60,17 +60,23 @@ class UI:
 
         pygame.display.update()
 
+    def draw_text(self , text ,font , color , surface , x ,y):
+        txtobj = font.render(text , 1 , color)
+        txtrect = txtobj.get_rect()
+        txtrect.topleft= (x,y)
+        surface.blit(txtobj , txtrect)
+
     def runGUI(self):
         run = True
         clock = pygame.time.Clock()
+        # self.draw_text('main menu' , self.FONT, self.WHITE , self.WIN , 20,20)
         while run:
-            clock.tick(self.FPS)
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     run = False
-
+            self.draw_text('main menu', self.FONT, self.WHITE, self.WIN, 20, 20)
             self.draw_graph()
-
+        clock.tick(self.FPS)
         pygame.quit()
 
 # if __name__ == "__main__":
