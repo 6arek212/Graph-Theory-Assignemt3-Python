@@ -13,7 +13,7 @@ class DiGraph(GraphInterface):
         return len(self.nodes)
 
     def e_size(self) -> int:
-        pass
+        return self.number_of_edges
 
     def get_mc(self) -> int:
         return self.mc
@@ -35,6 +35,8 @@ class DiGraph(GraphInterface):
     def remove_node(self, node_id: int) -> bool:
         if not self.nodes.__contains__((node_id)):
             return False
+        self.number_of_edges = self.number_of_edges - (
+                    len(self.nodes[node_id].edges_in) + len(self.nodes[node_id].edges_out))
 
         for node in self.nodes[node_id].edges_in.keys():
             self.nodes[node].edges_out.__delitem__(node_id)
@@ -43,6 +45,7 @@ class DiGraph(GraphInterface):
 
     def remove_edge(self, node_id1: int, node_id2: int) -> bool:
         self.nodes[node_id1].edges_out.__delitem__(node_id2)
+        self.number_of_edges = self.number_of_edges - 1
         return True
 
     def get_all_v(self) -> dict:

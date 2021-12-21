@@ -15,8 +15,39 @@ class GraphAlgo(GraphAlgoInterface):
     def get_graph(self) -> GraphInterface:
         return self.graph
 
+    def path_cost(self, list) -> float:
+        cost = 0
+        for i in range(len(list) - 1):
+            cost += self.graph.all_out_edges_of_node(i)[i + 1]
+
+        return cost
+
     def TSP(self, node_lst: List[int]) -> (List[int], float):
-        pass
+        targetTo = node_lst.copy()
+        res = []
+        src = targetTo[0]
+        if len(node_lst) == 1:
+            return self.shortest_path(src, src)
+        dest = targetTo[1]
+        while targetTo:
+
+            if (res and res[len(res) - 1] == src):
+                res.pop(len(res) - 1)
+
+            tmp = self.shortest_path(src, dest)[1]
+            # targetTo = [node for node in targetTo if node not in tmp]
+            for node in targetTo:
+                if node in tmp:
+                    targetTo.remove(node)
+
+            for node in tmp:
+                res.append(node)
+            # res = [node for node in tmp]
+            if targetTo:
+                src = dest
+                dest = targetTo[0];
+
+        return res, self.path_cost(res)
 
     def max_dest(self, node: Node):
         max = float('-inf')
@@ -40,7 +71,7 @@ class GraphAlgo(GraphAlgoInterface):
 
     def shortest_path(self, id1: int, id2: int) -> (float, list):
         nodes = self.graph.get_all_v()
-        if not nodes.__contains__(id1) or not nodes.__contains__(id2) or id1 == id2:
+        if not nodes.__contains__(id1) or not nodes.__contains__(id2):
             return float('inf'), []
 
         for node in nodes.values():
@@ -62,8 +93,9 @@ class GraphAlgo(GraphAlgoInterface):
             node.tag = Node.BLACK
 
         for node in nodes.values(): node.tag = Node.WHITE
-        if nodes[id2].w == sys.maxsize:
+        if nodes[id2].w == float('inf'):
             return float('inf'), []
+
 
         path = []
         start = id2
