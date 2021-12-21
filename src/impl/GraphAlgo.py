@@ -142,7 +142,7 @@ class GraphAlgo(GraphAlgoInterface):
          pass
 
 
-   #random.uniform(a, b)¶ -> Return a random floating point number N such that a <= N <= b for a <= b and b <= N <= a for b < a.
+   #random.uniform(a, b)¶ -> Return a random floating point number N such that a <= N <= b for a <= b and b <= N <= a for b < a..
     def plot_graph(self) -> None:
         my_graph = self.graph
         if my_graph is not None:
