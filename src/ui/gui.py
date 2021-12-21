@@ -69,7 +69,7 @@ class UI:
     def runGUI(self):
         run = True
         clock = pygame.time.Clock()
-        # self.draw_text('main menu' , self.FONT, self.WHITE , self.WIN , 20,20)
+
         while run:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:

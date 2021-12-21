@@ -106,11 +106,10 @@ class NodeData:
         self.edges_in = {}
         self.edges_out = {}
 
-    # def __str__(self):
-    #     return f"id: {self.key} , pos : {self.pos} , edgesIn : {self.edges_in} , edgesOut: {self.edges_out}"
-    #
-    # def __repr__(self):
-    #     return f"id: {self.key} , pos : {self.pos} , edgesIn : {self.edges_in} , edgesOut: {self.edges_out}"
+
+    def setPos(self , pos:tuple):
+        self.pos = pos
+
     def __str__(self):
         return f"id {self.key} - pos : {self.pos}"
 

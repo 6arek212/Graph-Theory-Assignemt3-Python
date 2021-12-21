@@ -34,12 +34,13 @@ def check0():
     g_a = GraphAlgo()
 
 
-    g_a.load_from_json("../data/A2.json")
-    gui = UI(g_a)
-    gui.runGUI()
-    list = [1,3,4]
-    print(g_a.TSP(list))
-    print(g_a.shortest_path(2,23))
+    g_a.load_from_json("../data/T0.json")
+    # gui = UI(g_a)
+    # gui.runGUI()
+    list = [1,3,22]
+    # print(g_a.TSP(list))
+    # print(g_a.shortest_path(2,23))
+    g_a.plot_graph()
     file = '../data/A.json'
     # g_a.save_to_json(file)
 
