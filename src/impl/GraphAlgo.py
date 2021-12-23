@@ -49,7 +49,7 @@ class GraphAlgo(GraphAlgoInterface):
             try:
                 for n in self.graph.get_all_v().values():
                     if n.pos is None:
-                        to_json["Nodes"].append({"id:", n.key})
+                        to_json["Nodes"].append({"id:":n.key})
                     else:
                         to_json["Nodes"].append({"pos": f"{n.pos[0]},{n.pos[1]},{n.pos[2]}", "id": n.key})
 
@@ -133,8 +133,11 @@ class GraphAlgo(GraphAlgoInterface):
 
     def getPathCost(self, list) -> float:
         cost = 0
+        print(list)
         for i in range(len(list) - 1):
-            cost += self.graph.all_out_edges_of_node(i)[i + 1]
+               print(i)
+
+               cost += self.graph.all_out_edges_of_node(i)[i + 1]
 
         return cost
 

@@ -29,7 +29,7 @@ class DiGraph(GraphInterface):
 
 
     def all_out_edges_of_node(self, id1: int) -> dict:
-        if self.Nodes is None:
+        if self.Nodes.get(id1) is None:
             return {}
 
         return self.Nodes.get(id1).edges_out
