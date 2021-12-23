@@ -38,7 +38,7 @@ class DiGraph(GraphInterface):
         return  self.mc
 
     def add_edge(self, id1: int, id2: int, weight: float) -> bool:
-        if (self.Nodes.get(id1) is None) or (self.Nodes.get(id2) is None) or (id1 == id2):
+        if (self.Nodes.get(id1) is None) or (self.Nodes.get(id2) is None) or (id1 == id2)or self.Nodes.get(id1).edges_out.get(id2) is not None:
             return  False
         self.Edges.append((id1 , id2 , weight))
         #update edges out for id1
@@ -87,7 +87,7 @@ class DiGraph(GraphInterface):
             self.Nodes.get(node_id1).edges_out.pop(node_id2)
             self.Nodes.get(node_id2).edges_in.pop(node_id1)
             self.mc += 1
-            self.nodes_counter -= 1
+            self.edge_counter -= 1
             return True
         return False
     def __str__(self):
