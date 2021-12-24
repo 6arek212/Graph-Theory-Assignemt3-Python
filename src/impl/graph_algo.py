@@ -21,7 +21,6 @@ class GraphAlgo(GraphAlgoInterface):
         cost = 0
         for i in range(len(list) - 1):
             cost += self.graph.all_out_edges_of_node(i)[i + 1]
-
         return cost
 
     def TSP(self, node_lst: List[int]) -> (List[int], float):
@@ -125,11 +124,10 @@ class GraphAlgo(GraphAlgoInterface):
                     while True:
                         x = np.random.uniform(1, 100)
                         y = np.random.uniform(1, 100)
-                        if x not in existed_points:
-                            existed_points[x] = {}
-                        if existed_points.get(x).get(y) is None:
-                            existed_points[x][y] = node.key
+                        if (x, y) not in existed_points:
+                            existed_points[(x, y)] = node.key
                             break
+
                     # after choosing two random points set the pos
                     node.pos = (x, y, 0)
 
@@ -178,6 +176,7 @@ class GraphAlgo(GraphAlgoInterface):
                             "w": w,
                             "dest": node_dest
                         })
+
                     json_graph['Nodes'].append(node.__dict__())
                 json.dump(json_graph, json_file, indent=2)
                 return True
