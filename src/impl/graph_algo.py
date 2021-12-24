@@ -1,11 +1,13 @@
-import sys
+import heapq
+
 from src.api.GraphInterface import GraphInterface
 from src.api.GraphAlgoInterface import GraphAlgoInterface
 from typing import List
 import json
 from src.impl.di_graph import DiGraph
 from src.impl.node import Node
-import heapdict
+import numpy as np
+import matplotlib.pyplot as plt
 
 
 class GraphAlgo(GraphAlgoInterface):
@@ -45,33 +47,36 @@ class GraphAlgo(GraphAlgoInterface):
             # res = [node for node in tmp]
             if targetTo:
                 src = dest
-                dest = targetTo[0];
+                dest = targetTo[0]
 
         return res, self.path_cost(res)
 
     def max_dest(self, node: Node):
-        max = float('-inf')
-        for other_node in self.graph.get_all_v().values():
-            path_dist = self.shortest_path(other_node.key, node.key)[0]
-            if other_node.key != node.key and path_dist > max:
-                max = path_dist
-        return max
+        max_dst = float('-inf')
+        for node_key in self.graph.get_all_v().keys():
+            path_dist = self.shortest_path(node.key, node_key)[0]
+            if path_dist == float('inf'):
+                return None;
+            if path_dist != float('inf') and path_dist > max_dst:
+                max_dst = path_dist
+        return max_dst
 
     def centerPoint(self) -> (int, float):
         min = float('inf')
-        picked_node = Node
+        picked_node = None
 
         for node in self.get_graph().get_all_v().values():
             dist = self.max_dest(node)
+            if dist is None:
+                return -1, float('inf')
             if dist < min:
                 picked_node = node
                 min = dist
-
         return picked_node.key, min
 
     def shortest_path(self, id1: int, id2: int) -> (float, list):
         nodes = self.graph.get_all_v()
-        if not nodes.__contains__(id1) or not nodes.__contains__(id2):
+        if id1 not in nodes or id2 not in nodes:
             return float('inf'), []
 
         for node in nodes.values():
@@ -81,21 +86,23 @@ class GraphAlgo(GraphAlgoInterface):
             else:
                 node.w = float('inf')
         dist = {}
-        pq = heapdict.heapdict()
-        pq[nodes[id1]] = nodes[id1].w
-        while len(pq) > 0:
-            node = pq.popitem()[0]
+        queue = []
+        heapq.heappush(queue, (0, id1))
+
+        while queue:
+            node = nodes[heapq.heappop(queue)[1]]
+
             for (adj, w) in node.edges_out.items():
-                if nodes[adj].tag == Node.WHITE and node.w + w < nodes[adj].w:
-                    nodes[adj].w = node.w + w
-                    pq[nodes[adj]] = nodes[adj].w
-                    dist[adj] = node.key
+                if nodes[adj].tag == Node.WHITE:
+                    if node.w + w < nodes[adj].w:
+                        nodes[adj].w = node.w + w
+                        dist[adj] = node.key
+                    heapq.heappush(queue, (nodes[adj].w, adj))
             node.tag = Node.BLACK
 
         for node in nodes.values(): node.tag = Node.WHITE
         if nodes[id2].w == float('inf'):
             return float('inf'), []
-
 
         path = []
         start = id2
@@ -107,7 +114,39 @@ class GraphAlgo(GraphAlgoInterface):
         return nodes[id2].w, path
 
     def plot_graph(self) -> None:
-        pass
+        my_graph = self.graph
+        if my_graph is not None:
+            # to check if random point is existed
+            existed_points = {}
+            # go throw all nodes in the graph
+            for node in my_graph.get_all_v().values():
+                # check if there is node with no pos to give it new random pos
+                if node.pos is None:
+                    while True:
+                        x = np.random.uniform(1, 100)
+                        y = np.random.uniform(1, 100)
+                        if x not in existed_points:
+                            existed_points[x] = {}
+                        if existed_points.get(x).get(y) is None:
+                            existed_points[x][y] = node.key
+                            break
+                    # after choosing two random points set the pos
+                    node.pos = (x, y, 0)
+
+                plt.plot(node.pos[0], node.pos[1], 'bo')
+                plt.text(node.pos[0], node.pos[1], node.key, fontsize=11,
+                         color='red')
+            # go throw all nodes and draw arrow edges for all out edges of the node
+            for node1 in my_graph.get_all_v().values():
+                for node2 in self.graph.all_out_edges_of_node(node1.key).keys():
+                    pos_x1 = node1.pos[0]
+                    pos_y1 = node1.pos[1]
+                    pos_x2 = self.graph.get_all_v().get(node2).pos[0]
+                    pos_y2 = self.graph.get_all_v().get(node2).pos[1]
+                    plt.arrow(pos_x1, pos_y1, (pos_x2 - pos_x1), (pos_y2 - pos_y1), length_includes_head=True,
+                              head_width=0.0002, width=0)
+
+            plt.show()
 
     def load_from_json(self, file_name: str) -> bool:
         json_graph = DiGraph()
@@ -115,8 +154,11 @@ class GraphAlgo(GraphAlgoInterface):
             with open(file_name) as json_file:
                 json_data = json.load(json_file)
                 for node in json_data['Nodes']:
-                    x, y, z = map(float, str(node["pos"]).split(","))
-                    json_graph.add_node(node['id'], (x, y, z))
+                    if 'pos' in node:
+                        x, y, z = map(float, str(node["pos"]).split(","))
+                        json_graph.add_node(node['id'], (x, y, z))
+                    else:
+                        json_graph.add_node(node['id'])
                 for edge in json_data['Edges']:
                     json_graph.add_edge(edge['src'], edge['dest'], edge['w'])
         except Exception as e:

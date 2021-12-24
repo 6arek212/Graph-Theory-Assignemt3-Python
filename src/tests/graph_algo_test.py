@@ -20,4 +20,4 @@ class test(unittest.TestCase):
         algo = GraphAlgo()
         algo.load_from_json('../../data/A0.json')
         center = algo.centerPoint()
-        self.assertEqual(center , (2, 7.216600510347101))
+        self.assertEqual((7, 6.806805834715163), center)
