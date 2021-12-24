@@ -1,4 +1,4 @@
-from src.impl.graoh_algo import GraphAlgo
+from src.impl.graph_algo import GraphAlgo
 import unittest
 
 
@@ -15,3 +15,9 @@ class test(unittest.TestCase):
 
         self.assertEqual(algo.shortest_path(0, 2), (5, [0, 1, 2]))
         self.assertEqual(algo.shortest_path(0, 1), (1, [0, 1]))
+
+    def test_center(self):
+        algo = GraphAlgo()
+        algo.load_from_json('../../data/A0.json')
+        center = algo.centerPoint()
+        self.assertEqual((7, 6.806805834715163), center)

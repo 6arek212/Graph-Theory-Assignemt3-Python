@@ -18,7 +18,12 @@ class Node:
         return f'key: {self.key}, w {self.w} , pos : {self.pos}'
 
     def __dict__(self):
-        return {
-            'pos': f'{self.pos[0]},{self.pos[1]},{self.pos[2]}',
-            'id': self.key
-        }
+        if self.pos is None:
+            return {
+                'id': self.key
+            }
+        else:
+            return {
+                'pos': f'{self.pos[0]},{self.pos[1]},{self.pos[2]}',
+                'id': self.key
+            }
