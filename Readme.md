@@ -14,8 +14,7 @@ Implementing weighted graph data structure alongside some known graph algorithms
 </br>
 
 ## How To Run
-
-    In the ui package : python3 gui.py 
+    In pycharm run the gui file inside the ui package Or runt the main file
 
 
 
@@ -73,50 +72,67 @@ Implementing weighted graph data structure alongside some known graph algorithms
 ## Algorithms Implementation
 
 - `Dijkstra Algorithm` for the shortest path between two nodes O(|V|*|V|)
-- `Strongly connected components` to check weither the graph is connected there must be only **One** strongly connected
-  component O(|V|+|E|)
 - `center` algorithm using the shortest path O(|V| * |V| * |V|)
 - `TSP` back-tracking algorithm N*(E+V*Log(V))
 
 </br>
 
 
-# Running Times
-
-- Graph with 1000 nodes 20 edges
-
-    - Build graph : 7ms
-    - shortest path : 3ms
-    - is connected : 4ms
-    - tsp (on 4 nodes list) : 97ms
-    - center : (needs more than 20 edges then it will take a long time !) *
+# Running Times Comparison
 
 
-- Graph with 10000 nodes 20 edges
-
-    - Build graph : 8ms
-    - shortest path : 7ms
-    - is connected : 22ms
-    - tsp (on 4 nodes list) : 393ms
-    - center : (needs more than 20 edges then it will take a long time !) *
 
 
-- Graph with 100000 nodes 20 edges
-
-    - Build graph : 49ms
-    - shortest path : 53ms
-    - is connected : 513ms
-    - tsp (on 4 nodes list) : 7378ms
-    - center : (needs more than 20 edges then it will take a long time !) *
+<br/>
 
 
-- Graph with 1000000 nodes 20 edges
 
-    - Build graph : 412ms
-    - shortest path : *
-    - is connected : *
-    - tsp (on 4 nodes list) : *
-    - center : (needs more than 20 edges then it will take a long time !) *
+#### 1000 Node Graph & 20 Edges
+
+| Algorithm        |      JAVA        |    PYTHON     |
+| -------------    | -------------    | ------------- |
+| Build graph      |       7ms        |      7ms      |
+| Shortest path    |       3ms        |      0.311ms  |
+| TSP              |       97ms       |     5ms       |
+| Center           |         *        |     *         |
+
+ <br/>
+
+#### 10000 Node Graph & 20 Edges
+
+| Algorithm        |      JAVA        |    PYTHON     |
+| -------------    | -------------    | ------------- |
+| Build graph      |       8ms        |      83ms     |
+| Shortest path    |       7ms        |       2ms     |
+| TSP              |       393ms      |      54ms     |
+| Center           |         *        |     *         |
+
+
+  <br/>
+
+
+#### 100000 Node Graph & 20 Edges
+
+| Algorithm        |      JAVA        |    PYTHON     |
+| -------------    | -------------    | ------------- |
+| Build graph      |      49ms         |     810ms     |
+| Shortest path    |       53ms        |     30ms      |
+| TSP              |       513ms       |     561ms     |
+| Center           |         *        |     *         |
+
+
+<br/>
+
+#### 1000000 Node Graph & 20 Edges
+
+| Algorithm        |      JAVA        |    PYTHON     |
+| -------------    | -------------    | ------------- |
+| Build graph      |       412ms      |      8463ms   |
+| Shortest path    |        *         |      308ms    |
+| TSP              |         *        |     5585ms    |
+| Center           |         *        |     *         |
+
+
 
   </br>
 

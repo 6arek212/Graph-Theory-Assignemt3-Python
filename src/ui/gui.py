@@ -7,7 +7,7 @@ import pygame_menu
 from tkinter import *
 from tkinter import simpledialog
 from src.ui.Range import Range, WorldGraph, Range2D
-from src.ui.controller import UIController, ShortestPathEvent, CenterEvent
+from src.ui.controller import UIController, ShortestPathEvent, CenterEvent, TSPEvent
 import tkinter.messagebox
 
 pygame.init()
@@ -24,6 +24,11 @@ FONT = pygame.font.SysFont('Ariel', 30, bold=False)
 
 
 def callback(event):
+    """
+    this callback displays message to the screen
+    :param event:
+    :return:
+    """
     window = Tk()
     window.wm_withdraw()
     window.geometry("1x1+200+200")
@@ -63,11 +68,12 @@ def update_frame():
     wf.frame = get_frame()
 
 
-def get_node_by_coordinate(x, y):
-    pass
-
 
 def show_graph():
+    """
+    display the graph
+    :return:
+    """
     while True:
         update_frame()
 
@@ -113,12 +119,15 @@ def show(new_graph: bool = False):
             return
     else:
         controller.graph_algo.graph = DiGraph()
+
+    controller.graph_algo.plot_graph()
     update_world()
     show_graph()
 
 
-
 def get_input(event):
+    """handle user input"""
+
     if event == 'shortest-path':
         try:
             Tk().wm_withdraw()
@@ -131,6 +140,20 @@ def get_input(event):
 
     if event == 'center':
         controller.on_trigger_event(CenterEvent())
+
+    if event == 'tsp':
+        Tk().wm_withdraw()
+        input = simpledialog.askstring(title="Q",
+                                       prompt='enter nodes ids seperated by , :')
+        str = input.split(',')
+        list = []
+
+        for key in str:
+            try:
+                list.append(int(key))
+            except Exception() as e:
+                callback('enter only numbers and ,')
+        controller.on_trigger_event(TSPEvent(list))
 
     if event == 'delete-node':
         Tk().wm_withdraw()
@@ -181,4 +204,3 @@ menu.add.button('New Graph', lambda: {show(True)})
 menu.add.button('Load Graph', lambda: {show(False)})
 menu.add.button('Quit', pygame_menu.events.EXIT)
 show()
-

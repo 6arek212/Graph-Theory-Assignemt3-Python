@@ -1,3 +1,7 @@
+"""
+this file has all the functions to handle the x,y positions on the screen
+"""
+
 class Range:
 
     def __init__(self, min, max):

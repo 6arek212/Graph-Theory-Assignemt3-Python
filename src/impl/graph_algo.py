@@ -24,34 +24,43 @@ class GraphAlgo(GraphAlgoInterface):
         :return: path cost
         """
         cost = 0
-        for i in range(len(list) - 1):
-            cost += self.graph.all_out_edges_of_node(i)[i + 1]
+        i = 0
+        while i < len(list) - 1:
+            cost += self.graph.all_out_edges_of_node(list[i])[list[i + 1]]
+            i += 1
         return cost
 
     def TSP(self, node_lst: List[int]) -> (List[int], float):
+        """
+        back-tracking algorithm N*(E+V*Log(V))
+        :param node_lst: nodes list
+        :return: path , path cost
+        """
+        # copy list
         targetTo = node_lst.copy()
         res = []
         src = targetTo[0]
         if len(node_lst) == 1:
             return self.shortest_path(src, src)
         dest = targetTo[1]
+        # while list not empty
         while targetTo:
-
+            # make sure last node don`t appear twice in the result
             if (res and res[len(res) - 1] == src):
                 res.pop(len(res) - 1)
 
             tmp = self.shortest_path(src, dest)[1]
-            # targetTo = [node for node in targetTo if node not in tmp]
-            for node in targetTo:
-                if node in tmp:
+            # remove a node if we already visited
+            for node in tmp:
+                if node in targetTo:
                     targetTo.remove(node)
-
+            # add the path
             for node in tmp:
                 res.append(node)
-            # res = [node for node in tmp]
+            # update next src and dest
             if targetTo:
                 src = dest
-                dest = targetTo[0]
+                dest = targetTo[0];
 
         return res, self.path_cost(res)
 
@@ -64,7 +73,7 @@ class GraphAlgo(GraphAlgoInterface):
         for node_key in self.graph.get_all_v().keys():
             path_dist = self.shortest_path(node.key, node_key)[0]
             if path_dist == float('inf'):
-                return None;
+                return None
             if path_dist != float('inf') and path_dist > max_dst:
                 max_dst = path_dist
         return max_dst
@@ -173,6 +182,11 @@ class GraphAlgo(GraphAlgoInterface):
             plt.show()
 
     def load_from_json(self, file_name: str) -> bool:
+        """
+        load from json file
+        :param file_name: file
+        :return: True if successful
+        """
         json_graph = DiGraph()
         try:
             with open(file_name) as json_file:
@@ -192,6 +206,11 @@ class GraphAlgo(GraphAlgoInterface):
         return True
 
     def save_to_json(self, file_name: str) -> bool:
+        """
+        save the graph as json
+        :param file_name: filename
+        :return: True if successful
+        """
         json_graph = {"Edges": [], "Nodes": []}
         try:
             with open(file_name, 'w') as json_file:
@@ -212,7 +231,4 @@ class GraphAlgo(GraphAlgoInterface):
         return False
 
 
-if __name__ == '__main__':
-    algo = GraphAlgo()
-    algo.load_from_json('../../data/A0.json')
-    print(algo.centerPoint())
+
