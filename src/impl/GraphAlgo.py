@@ -120,7 +120,7 @@ class GraphAlgo(GraphAlgoInterface):
                 res.pop(len(res) - 1)
 
             tmp = self.shortest_path(src, dest)[1]
-            #remove a node of we already visited
+            #remove a node if we already visited
             for node in tmp:
                 if node in targetTo:
                     targetTo.remove(node)
