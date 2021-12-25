@@ -14,7 +14,7 @@ Implementing weighted graph data structure alongside some known graph algorithms
 </br>
 
 ## How To Run
-    In pycharm run the gui file inside the ui package Or runt the main file
+    In pycharm run the gui file inside the ui package Or run the main file
 
 
 
