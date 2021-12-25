@@ -8,7 +8,7 @@
 
 ## Project Overview
 
-Implementing weighted graph data structure alongside some known graph algorithms and a simple GUI with JFrame
+Implementing weighted graph data structure alongside some known graph algorithms and a simple GUI with pygame
 
 
 </br>
@@ -138,7 +138,7 @@ Implementing weighted graph data structure alongside some known graph algorithms
 ## Authors
 
 * **Tarik Husin**  - linkedin -> https://www.linkedin.com/in/tarik-husin-706754184/
-* **Wisam Kabha**  - github -> https://github.com/Wissam111
+* **Wissam Kabha**  - github -> https://github.com/Wissam111
 
 </br>
 
