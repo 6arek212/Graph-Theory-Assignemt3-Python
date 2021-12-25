@@ -80,8 +80,7 @@ Implementing weighted graph data structure alongside some known graph algorithms
 
 # Running Times Comparison
 
-
-
+    tested on windows : cpu i7 9700k , 16g
 
 <br/>
 
