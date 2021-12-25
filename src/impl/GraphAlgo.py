@@ -49,7 +49,7 @@ class GraphAlgo(GraphAlgoInterface):
             try:
                 for n in self.graph.get_all_v().values():
                     if n.pos is None:
-                        to_json["Nodes"].append({"id:":n.key})
+                        to_json["Nodes"].append({"id:" : n.key})
                     else:
                         to_json["Nodes"].append({"pos": f"{n.pos[0]},{n.pos[1]},{n.pos[2]}", "id": n.key})
 
@@ -106,39 +106,41 @@ class GraphAlgo(GraphAlgoInterface):
         return dist[id2], shortestPath
 
     def TSP(self, node_lst: List[int]) -> (List[int], float):
-
+        #copy list
         targetTo = node_lst.copy()
         res = []
         src = targetTo[0]
         if len(node_lst) == 1:
             return self.shortest_path(src, src)
         dest = targetTo[1]
+        #while list not empty
         while targetTo:
-
+            #make sure last node don`t appear twice in the result
             if (res and res[len(res) - 1] == src):
                 res.pop(len(res) - 1)
 
             tmp = self.shortest_path(src, dest)[1]
-            for node in targetTo:
-                if node in tmp:
+            #remove a node of we already visited
+            for node in tmp:
+                if node in targetTo:
                     targetTo.remove(node)
-
+           #add the path
             for node in tmp:
                 res.append(node)
+            #update next src and dest
             if targetTo:
                 src = dest
                 dest = targetTo[0];
 
         return res, self.getPathCost(res)
 
+
     def getPathCost(self, list) -> float:
         cost = 0
-        print(list)
-        for i in range(len(list) - 1):
-               print(i)
-
-               cost += self.graph.all_out_edges_of_node(i)[i + 1]
-
+        i=0
+        while i<len(list)-1:
+            cost += self.graph.all_out_edges_of_node(list[i])[list[i+1]]
+            i+=1
         return cost
 
     def centerPoint(self) -> (int, float):
