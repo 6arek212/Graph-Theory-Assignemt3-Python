@@ -18,6 +18,11 @@ class GraphAlgo(GraphAlgoInterface):
         return self.graph
 
     def path_cost(self, list) -> float:
+        """
+        calculate the path cost
+        :param list: path
+        :return: path cost
+        """
         cost = 0
         for i in range(len(list) - 1):
             cost += self.graph.all_out_edges_of_node(i)[i + 1]
@@ -51,6 +56,10 @@ class GraphAlgo(GraphAlgoInterface):
         return res, self.path_cost(res)
 
     def max_dest(self, node: Node):
+        """
+        :param node: node
+        :return: max dest from this node
+        """
         max_dst = float('-inf')
         for node_key in self.graph.get_all_v().keys():
             path_dist = self.shortest_path(node.key, node_key)[0]
@@ -61,6 +70,11 @@ class GraphAlgo(GraphAlgoInterface):
         return max_dst
 
     def centerPoint(self) -> (int, float):
+        """
+        using the shortest path |V| time's to get the center point
+        :return:
+        """
+
         min = float('inf')
         picked_node = None
 
@@ -74,6 +88,13 @@ class GraphAlgo(GraphAlgoInterface):
         return picked_node.key, min
 
     def shortest_path(self, id1: int, id2: int) -> (float, list):
+        """
+        Dijksta algorithm O(|V|*|V|)
+        :param id1: the first node id
+        :param id2: the second node id
+        :return: ( shortest path from id1 to id2 , path )
+        """
+
         nodes = self.graph.get_all_v()
         if id1 not in nodes or id2 not in nodes:
             return float('inf'), []
@@ -113,6 +134,11 @@ class GraphAlgo(GraphAlgoInterface):
         return nodes[id2].w, path
 
     def plot_graph(self) -> None:
+        """
+        At first the function assigns positions for the node which does not have a position,
+        Then displays the graph
+        :return: none
+        """
         my_graph = self.graph
         if my_graph is not None:
             # to check if random point is existed
