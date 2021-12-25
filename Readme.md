@@ -15,6 +15,7 @@ Implementing weighted graph data structure alongside some known graph algorithms
 
 ## How To Run
 
+    In the ui package : python3 gui.py 
 
 
 
