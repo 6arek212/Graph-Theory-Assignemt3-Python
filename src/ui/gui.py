@@ -117,6 +117,7 @@ def show(new_graph: bool = False):
     show_graph()
 
 
+
 def get_input(event):
     if event == 'shortest-path':
         try:
@@ -157,10 +158,8 @@ def get_input(event):
         except Exception as e:
             print('error', e)
 
-
     if event == 'save':
         controller.graph_algo.save_to_json('../../out.json')
-
 
     show_graph()
 
@@ -170,17 +169,16 @@ menu_algo.add.button('Center', lambda: get_input('center'))
 menu_algo.add.button('TSP', lambda: get_input('tsp'))
 menu_algo.add.button('Cancel', lambda: get_input(''))
 
-
 menu_graph.add.button('Save Graph', lambda: get_input('save'))
 menu_graph.add.button('Remove Node', lambda: get_input('delete-node'))
 menu_graph.add.button('Add Edge', lambda: get_input('add-edge'))
 menu_graph.add.button('Remove Edge', lambda: get_input('remove-edge'))
 menu_graph.add.button('Cancel', lambda: get_input(''))
 
-
 filename = 'A0'
 menu.add.text_input('Enter graph filename :', default='A0', onchange=on_change_filename)
 menu.add.button('New Graph', lambda: {show(True)})
 menu.add.button('Load Graph', lambda: {show(False)})
 menu.add.button('Quit', pygame_menu.events.EXIT)
-menu.mainloop(screen)
+show()
+
