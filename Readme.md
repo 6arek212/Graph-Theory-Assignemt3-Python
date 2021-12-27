@@ -16,7 +16,13 @@ Implementing weighted graph data structure alongside some known graph algorithms
 ## How To Run
     In pycharm run the gui file inside the ui package Or run the main file
 
+![](imgs/1.png)
 
+![](imgs/2.png)
+
+![](imgs/3.png)
+
+![](imgs/4.png)
 
 
 </br>

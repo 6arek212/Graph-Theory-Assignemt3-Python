@@ -120,7 +120,6 @@ def show(new_graph: bool = False):
     else:
         controller.graph_algo.graph = DiGraph()
 
-    controller.graph_algo.plot_graph()
     update_world()
     show_graph()
 
